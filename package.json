@@ -1,0 +1,40 @@
+{
+  "name": "continuos-server",
+  "version": "1.0.0",
+  "description": "servidor privado do app continuos",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ronielramos/continuos-server.git"
+  },
+  "keywords": [
+    "server",
+    "servidor",
+    "rest",
+    "api"
+  ],
+  "author": "Roniel Ramos Gomes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ronielramos/continuos-server/issues"
+  },
+  "homepage": "https://github.com/ronielramos/continuos-server#readme",
+  "devDependencies": {
+    "babel-eslint": "^8.2.6",
+    "eslint": "^5.11.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.1",
+    "mongoose-type-email": "^1.0.10"
+  }
+}
