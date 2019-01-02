@@ -1,5 +1,5 @@
-import Text from '../models/text.model'
-import Rest from './rest-operations.controller'
+const Text = require('../models/text.model')
+const Rest = require('./rest-operations.controller')
 
 exports.create = async function (req, res) {
   Rest.create(res, Text, req.body)

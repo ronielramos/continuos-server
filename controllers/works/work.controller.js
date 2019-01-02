@@ -4,7 +4,9 @@ const Rest = require('../rest-operations.controller')
 const fields = ''
 
 exports.create = async function (req, res) {
-  Rest.create(res, Work, req.body)
+  Rest.create(Work, req.body)
+    .then((result) => { res.status(result.code).end() })
+    .catch((error, errorMessage) => { res.status(error.code).json(errorMessage) })
 }
 
 exports.alter = async function (req, res) {
@@ -20,6 +22,10 @@ exports.findOne = async function (req, res) {
 }
 
 exports.findList = async function (req, res) {
+  res.end()
+}
+
+exports.find = async function (req, res) {
   res.end()
 }
 
