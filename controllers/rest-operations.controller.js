@@ -1,28 +1,29 @@
-exports.create = function (res, Model, data) {
+
+exports.create = function (Model, data) {
   return new Promise(async function (resolve, reject) {
-    let code = 200
-    let result = 'Sucesso'
     try {
       await Model.create(data)
+      const response = { code: 201 }
+      resolve(response)
     } catch (error) {
-      code = 500
-      result = 'Erro'
-      console.error(error)
+      const response = { code: 500 }
+      reject(response)
     }
-    resolve(res.status(code).json({ resultado: result }))
   })
 }
 
-exports.findAll = async function (res, Model, parameters, fields) {
+
+
+exports.find = async function (Model, fields, page, qtd, parametros) {
   return new Promise(async function (resolve, reject) {
-    let code = 200
-    let result = []
     try {
-      result = await Model.find(parameters).select(fields)
+      const skipCount = (page - 1) * qtd
+      const content = await Model.find(parametros).select(fields).skip(skipCount)
+      const response = { code: 200, content: content }
+      resolve(response)
     } catch (error) {
-      code = 500
-      console.error(error)
+      const response = { code: 500 }
+      reject(response)
     }
-    resolve(res.status(code).json({ result: result }))
   })
 }
