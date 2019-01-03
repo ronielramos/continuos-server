@@ -1,5 +1,6 @@
 const Writer = require('../../models/writer.model')
 const Rest = require('../rest-operations.controller')
+
 const bcrypt = require('bcrypt')
 
 exports.create = async function (req, res) {
@@ -15,6 +16,7 @@ exports.create = async function (req, res) {
       .catch((error) => { return res.status(error.code).send() })
   } catch (error) {
     if (error.status) return res.status(error.status).json(error.description)
+    console.error(error)
     return res.status(400).end()
   }
 }
@@ -62,7 +64,7 @@ function validarSenha (password) {
     const tamanhoSenha = password.length
 
     if (tamanhoSenha < 6 || tamanhoSenha > 12) {
-      const response = { code: 400, description: 'Password deve conter no mínimo 6 e no maximo 12 digítos' }
+      const response = { code: 400, description: 'Password deve conter no mínimo 6 e no máximo 12 digítos' }
       reject(response)
     }
 
@@ -72,7 +74,7 @@ function validarSenha (password) {
     const caracter = password.match(/[!@#$%*()_+^&}{:;?.]{1}/)
 
     if (!letraMinuscula || !letraMaiuscula || !numero || !caracter) {
-      const response = { code: 400, description: 'Password deve conter ao menos uma letra maiuscula, minuscula, um número e um caracter especial' }
+      const response = { code: 400, description: 'Password deve conter ao menos uma letra maiúscula, minúscula, um número e um caracter especial' }
       reject(response)
     }
 
