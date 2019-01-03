@@ -35,17 +35,17 @@ describe('Writer', function () {
   })
   it('Should alter a SINGLE Writer on /writer/:_id PATCH')
   it('Should delete a SINGLE Writer on /writer/:_id DELETE')
-  it('Should get all Writers on /writer GET', function (done) {
-    chai.request(server)
-      .get(endpoint + '/1')
-      .end(function (err, res) {
-        res.should.have.status(200)
-        res.should.be.json
-        res.body.should.be.a('array')
-        console.error(err)
-        done()
-      })
-  })
+})
+it('Should get all Writers on /writer GET', function (done) {
+  chai.request(server)
+    .get(endpoint + '/1')
+    .end(function (err, res) {
+      res.should.have.status(200)
+      res.should.be.json
+      res.body.should.be.a('array')
+      console.error(err)
+      done()
+    })
 })
 
 
