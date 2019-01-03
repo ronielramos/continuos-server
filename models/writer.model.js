@@ -9,6 +9,7 @@ let WriterSchema = new Schema({
   'email': { type: String, required: true, unique: true, validate: { validator: validator.isEmail, message: 'invalid email', isAsync: false } },
   'profile_pic': { type: String, required: false, default: '' },
   'password': { type: String, required: false },
+  'authorization_data': { type: Object, required: false },
   'register_type': { type: Number, min: 1, max: 4, required: true },
   'notifications': { type: { last_access: Date, data: [{ date: Date, emmiter: String, content: String, read: Boolean }], required: false }, default: [] },
   'topics': { type: [{ _id: _id, name: String }], required: false, default: [] },
