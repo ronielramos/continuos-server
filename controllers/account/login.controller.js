@@ -13,7 +13,7 @@ exports.login = async function (req, res, next) {
   passport.authenticate('login', async (err, user, info) => {
     try {
       if (err || !user) {
-        const error = new Error('Erro!')
+        const error = new Error('Error!')
         console.error(error)
         return next(error)
       }
@@ -33,9 +33,41 @@ exports.login = async function (req, res, next) {
 exports.find = async function (req, res) {
   try {
     const user = req.user
-    const writer = await Writer.findById(user._id).select('profile_pic createdAt isActive -_id name email register_type')
-    res.status(200).json(writer)
+    const fields = req.query.fields || 'name email profile_pic'
+    const fieldsSplited = fields.split(' ')
+
+    const forbiddenFeld = fieldRestrictor(fieldsSplited)
+
+    if (forbiddenFeld) return res.status(400).json({ description: forbiddenFeld + ' is forbidden or not exists' })
+
+    const writer = await Writer.findById(user._id).select(fields)
+    res.json(writer)
   } catch (error) {
     return res.status(400).end()
   }
+}
+
+
+function fieldRestrictor (fieldsReceived) {
+  const blockedFields = [
+    'name',
+    'email',
+    'profile_pic',
+    'notifications',
+    'topics',
+    'subscriptions',
+    'admired_people',
+    'admired_me',
+    'works',
+    'admired_works',
+    'blocked_people',
+    'devices',
+    'searches',
+    'createdAt',
+    'isActive'
+  ]
+  for (let field of fieldsReceived) {
+    if (!blockedFields.includes(field)) return field
+  }
+  return null
 }
