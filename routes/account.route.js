@@ -17,9 +17,9 @@ router.get('/many/:_ids', writerController.findList)
 router.get('/search/:value', writerController.search)
 
 // Obrigatório estar logado
-router.get('/login/data', passport.authenticate('jwt', { session: false }), loginController.find)
-router.patch('/_id/:_id', passport.authenticate('jwt', { session: false }), writerController.alter)
-router.delete('/_id/:_id', passport.authenticate('jwt', { session: false }), writerController.deleteOne)
+router.get('/', passport.authenticate('jwt', { session: false }), loginController.find)
+router.patch('/', passport.authenticate('jwt', { session: false }), writerController.alter)
+router.delete('/', passport.authenticate('jwt', { session: false }), writerController.deleteOne)
 
 module.exports = router
 
