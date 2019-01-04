@@ -30,6 +30,7 @@ exports.login = async function (req, res, next) {
   })(req, res, next)
 }
 
+
 exports.find = async function (req, res) {
   try {
     const user = req.user
@@ -70,4 +71,12 @@ function fieldRestrictor (fieldsReceived) {
     if (!blockedFields.includes(field)) return field
   }
   return null
+}
+
+
+exports.forgotPassword = function (req, res) {
+  res.end()
+}
+exports.change = function (req, res) {
+  res.end()
 }

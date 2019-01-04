@@ -3,7 +3,7 @@ exports.create = function (Model, data) {
   return new Promise(async function (resolve, reject) {
     try {
       await Model.create(data)
-      const response = { code: 201 }
+      const response = { code: 201, description: 'Success' }
       resolve(response)
     } catch (error) {
       const response = { code: 500 }

@@ -12,7 +12,7 @@ exports.create = async function (req, res) {
     }
 
     Rest.create(Writer, data)
-      .then((success) => { return res.status(success.code).send() })
+      .then((success) => { return res.status(success.code).json(success.description) })
       .catch((error) => { return res.status(error.code).send() })
   } catch (error) {
     if (error.status) return res.status(error.status).json(error.description)
