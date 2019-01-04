@@ -8,8 +8,11 @@ const chaiHttp = require('chai-http')
 const expect = chai.expect
 const should = chai.should()
 
-const server = 'http://127.0.0.1:8080/api/v1'
-const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVjMmQzNzQ4ZGRlYTg4M2FjZjU0NTAwNiIsImVtYWlsIjoicm9uaWVsX3JhbW9zNkBob3RtYWlsLmNvbSJ9LCJpYXQiOjE1NDY0Njg1MDB9.Kz8JKy3ls7xtqMNK6c0ldLt-DhNgC1kkc6iBDVC0hL4'
+const data = require('../data.test')
+const server = data.server
+const token = data.token
+const email = data.email
+const password = data.password
 
 chai.use(chaiHttp)
 
@@ -27,8 +30,8 @@ describe('LOGIN', function () {
       .post(endpoint)
       .type('form')
       .send({
-        email: 'roniel_ramos6@hotmail.com',
-        password: '@1254ronieL',
+        email: email,
+        password: password,
         register_type: 1
       })
       .end(function (err, res) {
@@ -41,8 +44,41 @@ describe('LOGIN', function () {
         done()
       })
   })
-  it('Should validate the account and generate a TOKEN to validate the change of password on /writer/forgot POST')
-  it('Should validate the token and release Writer to change the password on /writer/change POST')
+
+
+  it('Should validate the account and generate a TOKEN to validate the change of password on /writer/login/forgot PATCH', function (done) {
+    chai.request(server)
+      .patch(endpoint + '/forgot')
+      .send({
+        email: email
+      })
+      .end(function (err, res) {
+        console.error(err)
+        res.should.have.status(200)
+        res.should.be.json
+        res.body.should.be.a('object')
+        done()
+      })
+  })
+
+
+  it('Should validate the token and release Writer to change the password on /writer/login PATCH', function (done) {
+    chai.request(server)
+      .patch(endpoint)
+      .send({
+        email: email,
+        token: 'token'
+      })
+      .end(function (err, res) {
+        console.error(err)
+        res.should.have.status(200)
+        res.should.be.json
+        res.body.should.be.a('object')
+        done()
+      })
+  })
+
+
   it('Should return the register data of the Writer /writer/login/data GET', function (done) {
     chai.request(server)
       .get(endpoint + '/data')
@@ -52,18 +88,6 @@ describe('LOGIN', function () {
         res.should.have.status(200)
         res.should.be.json
         res.body.should.be.a('object')
-        res.body.should.have.property('profile_pic')
-        res.body.profile_pic.should.be.a('string')
-        res.body.should.have.property('createdAt')
-        res.body.createdAt.should.be.a('string')
-        res.body.should.have.property('isActive')
-        res.body.isActive.should.be.true
-        res.body.should.have.property('name')
-        res.body.name.should.be.a('string')
-        res.body.should.have.property('email')
-        res.body.email.should.be.a('string')
-        res.body.should.have.property('register_type')
-        res.body.register_type.should.be.a('number')
         done()
       })
   })
