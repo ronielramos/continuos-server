@@ -7,11 +7,12 @@ const ExtractJWT = require('passport-jwt').ExtractJwt
 
 const bcrypt = require('bcrypt')
 
-passport.use('login', new LocalStrategy({
+const localStrategy = new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
 }, async (email, password, done) => {
   try {
+    // if (token) console.log('Token', token)
     const writer = await Writer.findOne({ email }).select('name password email')
 
     if (!writer) {
@@ -28,15 +29,19 @@ passport.use('login', new LocalStrategy({
   } catch (error) {
     return done(error)
   }
-}))
+})
 
-passport.use(new JWTstrategy({
+const jwtStrategy = new JWTstrategy({
   secretOrKey: 'nivelArrozTop',
-  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken()
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  expiresIn: 86400 // One day
 }, async (token, done) => {
   try {
     return done(null, token.user)
   } catch (error) {
     done(error)
   }
-}))
+})
+
+passport.use('login', localStrategy)
+passport.use(jwtStrategy)
