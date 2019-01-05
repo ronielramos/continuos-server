@@ -19,7 +19,7 @@ router.delete('/', passport.authenticate('jwt', { session: false }), writerContr
 router.get('/:page', writerController.find)
 router.get('/_id/:_id', writerController.findOne)
 router.get('/many/:_ids', writerController.findList)
-router.get('/search/:value', writerController.search)
+router.get('/search/:page/:value', writerController.search)
 
 module.exports = router
 
