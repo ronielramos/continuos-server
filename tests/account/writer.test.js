@@ -4,8 +4,8 @@
 const chai = require('chai')
 const nock = require('nock')
 const chaiHttp = require('chai-http')
-const expect = chai.expect
-const should = chai.should()
+// const expect = chai.expect
+// const should = chai.should()
 
 const data = require('../data.test')
 const server = data.server
@@ -76,6 +76,7 @@ describe('Writer', function () {
         res.sould.have.status(200)
         res.should.be.json
         res.should.be.a('object')
+        done()
       })
   })
 })
@@ -102,6 +103,7 @@ it('Should get a UNIQUE Writer on /writer/:_id GET', function (done) {
       res.should.have.status(200)
       res.should.be.json
       res.body.should.be.a('object')
+      res.body.should.have.property('_id')
       done()
     })
 })
@@ -109,24 +111,26 @@ it('Should get a UNIQUE Writer on /writer/:_id GET', function (done) {
 
 it('Should get a MANY Writers on /writer/many/:_ids GET', function (done) {
   chai.request(server)
-    .get(endpoint + '/_id/' + _ids)
+    .get(endpoint + '/many/' + _ids)
     .end(function (err, res) {
       console.error(err)
       res.should.have.status(200)
       res.should.be.json
       res.body.should.be.a('array')
+      res.body[0].should.have.own.property('_id')
       done()
     })
 })
 
-it('Should get a Writers WITH the CONDITIONS passed on /writer/search/:value GET', function (done) {
+it('Should get a Writers WITH the CONDITIONS passed on /writer/search/:page/:value GET', function (done) {
   chai.request(server)
-    .get(endpoint + '/search/' + value)
+    .get(endpoint + '/search/1/' + value)
     .end(function (err, res) {
       console.error(err)
       res.should.have.status(200)
       res.should.be.json
       res.body.should.be.a('array')
+      res.body[0].should.have.own.property('_id')
       done()
     })
 })
