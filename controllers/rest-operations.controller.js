@@ -101,3 +101,23 @@ exports.alter = function (Model, data, update) {
     }
   })
 }
+
+exports.delete = function (Model, _id) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const content = await Model.findByIdAndDelete(_id).select('name email')
+      if (content) {
+        const response = { code: 200, content: content }
+        resolve(response)
+      } else {
+        const response = { code: 400 }
+        reject(response)
+      }
+
+    } catch (error) {
+      const response = { code: 500 }
+      console.error(error)
+      reject(response)
+    }
+  })
+}

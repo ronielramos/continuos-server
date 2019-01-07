@@ -65,7 +65,11 @@ exports.alter = async function (req, res) {
 }
 
 exports.deleteOne = async function (req, res) {
-  res.end()
+  const _id = req.params._id || ''
+
+  Rest.delete(Writer, _id)
+    .then((success) => { return res.status(success.code).json(success.content) })
+    .catch((error) => { return res.status(error.code).send() })
 }
 
 exports.findOne = async function (req, res) {
